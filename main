@@ -1,0 +1,80 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Search</title>
+</head>
+<body style="background-color: #f5f5f5; font-family: Arial, sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh;">
+
+    <div style="max-width: 600px; padding: 20px; background-color: #fff; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); border-radius: 5px; transition: background-color 0.3s;">
+        <h1>Live Search</h1>
+        <div style="margin-bottom: 20px; display: flex;">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search..." style="flex-grow: 1; border-radius: 5px 0 0 5px; padding: 10px; border: 1px solid #ccc;">
+            <button id="searchButton" style="background-color: #007bff; border: none; border-radius: 0 5px 5px 0; padding: 10px 20px; cursor: pointer; transition: background-color 0.3s; outline: none;">
+                <i class="fas fa-search" style="color: #fff;"></i>
+            </button>
+        </div>
+        <ul id="results" style="list-style: none; padding: 0;"></ul>
+    </div>
+
+    <script>
+        const dummyData = [
+            "Apple",
+            "Banana",
+            "Cherry",
+            "Date",
+            "Fig",
+            "Grape",
+            "Kiwi",
+            "Lemon",
+            "Mango",
+            "Orange",
+            "Peach",
+            "Pear",
+            "Rana",
+            "Pineapple",
+            "Strawberry",
+            "Watermelon",
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const results = document.getElementById('results');
+
+        searchButton.addEventListener('click', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            displayResults(searchTerm);
+        });
+
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            displayResults(searchTerm);
+        });
+
+        function displayResults(searchTerm) {
+            results.innerHTML = '';
+
+            if (searchTerm === '') {
+                return;
+            }
+
+            const filteredData = dummyData.filter(item => item.toLowerCase().includes(searchTerm));
+
+            if (filteredData.length === 0) {
+                results.innerHTML = '<li>No results found</li>';
+            } else {
+                filteredData.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = item;
+                    listItem.style.cursor = 'pointer';
+                    listItem.style.transition = 'background-color 0.3s';
+                    listItem.addEventListener('click', () => {
+                        searchInput.value = item;
+                        results.innerHTML = '';
+                    });
+                    results.appendChild(listItem);
+                });
+            }
+        }
+    </script>
+</body>
+
